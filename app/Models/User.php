@@ -31,6 +31,8 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -40,5 +42,65 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'options' => 'json',
     ];
+
+    /**
+     * Password mutator
+     *
+     * @param string $value
+     */
+    public function setPasswordAttribute($value)
+    {
+        if (mb_strlen($value) >= 6 && mb_strlen($value) <= 100) {
+            $this->attributes['password'] = bcrypt($value);
+        } else {
+            $this->attributes['password'] = $value;
+        }
+    }
+
+    /**
+     * Language option accessor
+     *
+     * @return string|NULL
+     */
+    public function getLanguageOptionAttribute()
+    {
+        return $this->options['language'] ?? null;
+    }
+
+    /**
+     * Language option mutator
+     *
+     * @param string|NULL $value
+     */
+    public function setLanguageOptionAttribute(string $value = null)
+    {
+        $options = $this->options;
+        $options['language'] = $value;
+        $this->options = $options;
+    }
+
+    /**
+     * Timezone option accessor
+     *
+     * @return string|NULL
+     */
+    public function getTimezoneOptionAttribute()
+    {
+        return $this->options['timezone'] ?? null;
+    }
+
+    /**
+     * Timezone option mutator
+     *
+     * @param string|NULL $value
+     */
+    public function setTimezoneOptionAttribute(string $value = null)
+    {
+        $options = $this->options;
+        $options['timezone'] = $value;
+        $this->options = $options;
+    }
+
 }
