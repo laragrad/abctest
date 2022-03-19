@@ -7,6 +7,7 @@ use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\Password;
 
 class AuthRequest extends FormRequest
 {
@@ -29,7 +30,7 @@ class AuthRequest extends FormRequest
     {
         return [
             'email' => ['email:rfc,dns', 'required', 'max:255'],
-            'password' => ['string', 'required', 'max:50', 'min:6'],
+            'password' => ['string', 'required', 'max:50', Password::min(6)->letters()->mixedCase()->numbers()->symbols()],
         ];
     }
 

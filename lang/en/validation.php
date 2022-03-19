@@ -130,6 +130,9 @@ return [
     'url' => 'The :attribute must be a valid URL.',
     'uuid' => 'The :attribute must be a valid UUID.',
 
+    'config_has_key' => 'The :attribute must be a key in config',
+    'config_in_array' => 'The :attribute must be an item of array of config',
+
     /*
     |--------------------------------------------------------------------------
     | Custom Validation Language Lines

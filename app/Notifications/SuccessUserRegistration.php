@@ -48,9 +48,8 @@ class SuccessUserRegistration extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->line('<h1>Congratulations!</h1>')
+            ->line('Congratulations!')
             ->line('You are successfull registered.')
-            // ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
     }
 

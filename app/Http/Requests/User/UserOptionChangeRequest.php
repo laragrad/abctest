@@ -24,8 +24,8 @@ class UserOptionChangeRequest extends FormRequest
     public function rules()
     {
         return [
-            'language' => ['string', 'sometimes', 'max:5'],
-            'timezone' => ['string', 'sometimes', 'max:25'],
+            'language' => ['string', 'sometimes', 'max:5', 'config_has_key:thesaurus.languages'],
+            'timezone' => ['string', 'sometimes', 'max:50', 'config_has_key:thesaurus.timezones'],
         ];
     }
 }
