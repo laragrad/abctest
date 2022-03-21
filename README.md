@@ -31,11 +31,25 @@
 
 Импортируйте в Postman файлы коллекции и переменных окружения из папки `/postman` проекта.
 
-Выберите Environement **ABC Mobile Test Environement**.
-
-Откройте коллекцию **ABC Mobile Test API**.
+Выберите Environement **ABC Mobile Test Environement** и откройте коллекцию **ABC Mobile Test API**.
 
 ## MailHog
 
 Для просмотра формируемых email откройте в браузере [MailHog Dashboard](http://localhost:58025)
+
+## Tests
+
+Запустите
+
+	./vendor/bin/phpunit
+
+## API Endpoints
+
+Базовый URI http://localhost:50080/api
+
+### user/register
+
+### auth/token
+
+### user/option/edit
 

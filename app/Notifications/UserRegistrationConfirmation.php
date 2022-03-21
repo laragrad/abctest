@@ -8,7 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\User;
 
-class SuccessUserRegistration extends Notification
+class UserRegistrationConfirmation extends Notification
 {
     use Queueable;
 

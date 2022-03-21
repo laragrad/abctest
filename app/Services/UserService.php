@@ -2,30 +2,29 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App;
-use App\Notifications\SuccessUserRegistration;
+use App\Models\User;
+use App\Notifications\UserRegistrationConfirmation;
+use App\Exceptions\CustomException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Http\Response;
 
 class UserService
 {
 
     /**
+     * Registering new user
      *
      * @param string $email
      * @param string $password
      * @param string $passwordConfirmation
      * @throws \Exception
      */
-    public function registerUser(string $email, string $password, string $passwordConfirmation)
+    public function registerUser(string $email, string $password)
     {
-        // Check unique
+        // Check unique email
         if (User::where('email', $email)->exists()) {
-            throw new \Exception(trans('user.email_already_registered'));
-        }
-
-        // Check password confirmation
-        if ($password !== $passwordConfirmation) {
-            throw new \Exception(trans('user.wrong_password_confirmation'));
+            throw new HttpException(Response::HTTP_UNPROCESSABLE_ENTITY, trans('user.email_already_registered'));
         }
 
         // Register user
@@ -34,10 +33,21 @@ class UserService
         $user->email = $email;
         $user->password = $password;
         $user->save();
+        $user->refresh();
 
         // Sent Email confirmation
-        $user->notify(new SuccessUserRegistration($user));
+        $this->sendRegistrationConfirmation($user);
 
         return $user;
+    }
+
+    /**
+     * Sending user registration confirmation
+     *
+     * @param User $user
+     */
+    public function sendRegistrationConfirmation(User $user)
+    {
+        $user->notify(new UserRegistrationConfirmation($user));
     }
 }

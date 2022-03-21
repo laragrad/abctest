@@ -10,6 +10,7 @@ class UserOptionController extends Controller
 {
 
     /**
+     * Changing user options
      *
      * @param UserOptionChangeRequest $request
      * @param UserOptionService $service

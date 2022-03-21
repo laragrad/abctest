@@ -11,6 +11,7 @@ use Illuminate\Validation\Rules\Password;
 
 class AuthRequest extends FormRequest
 {
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -29,8 +30,20 @@ class AuthRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['email:rfc,dns', 'required', 'max:255'],
-            'password' => ['string', 'required', 'max:50', Password::min(6)->letters()->mixedCase()->numbers()->symbols()],
+            'email' => [
+                'email:rfc,dns',
+                'required',
+                'max:255'
+            ],
+            'password' => [
+                'string',
+                'required',
+                'max:50',
+                Password::min(6)->letters()
+                    ->mixedCase()
+                    ->numbers()
+                    ->symbols()
+            ]
         ];
     }
 
@@ -50,7 +63,7 @@ class AuthRequest extends FormRequest
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => trans('auth.failed'),
+                'email' => trans('auth.failed')
             ]);
         }
 
@@ -75,8 +88,8 @@ class AuthRequest extends FormRequest
         throw ValidationException::withMessages([
             'email' => trans('auth.throttle', [
                 'seconds' => $seconds,
-                'minutes' => ceil($seconds / 60),
-            ]),
+                'minutes' => ceil($seconds / 60)
+            ])
         ]);
     }
 
@@ -87,6 +100,6 @@ class AuthRequest extends FormRequest
      */
     public function throttleKey()
     {
-        return Str::lower($this->input('email')).'|'.$this->ip();
+        return Str::lower($this->input('email')) . '|' . $this->ip();
     }
 }

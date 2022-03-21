@@ -17,7 +17,7 @@ class UserController extends Controller
      */
     public function register(UserRegisterRequest $request, UserService $service)
     {
-        $user = $service->registerUser($request->email, $request->password, $request->password_confirmation);
+        $user = $service->registerUser($request->email, $request->password);
 
         return $user;
     }
